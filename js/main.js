@@ -10,11 +10,14 @@ var headerHeight = $header.height();
 var $sizes = $(".size");
 var $footer = $("footer");
 var $canvas = $("#maincanvas");
+var $canvasDisplay = $("#maincanvasDisplay");
 var canvas = document.getElementById('maincanvas');
+var canvasDisplay = document.getElementById('maincanvasDisplay');
 
 var PI2 = Math.PI * 2; // for drawing circles
 
 var ctx = canvas.getContext('2d');
+var ctxDisplay = canvasDisplay.getContext('2d');
 
 // Setup app data objects
 
@@ -99,9 +102,9 @@ var mup = function(e) {
 	controller.currentEntity = -1;
 }
 
-$canvas.on('mousedown touchstart', mdown);
-$canvas.on('mousemove touchmove', mmove);
-$canvas.on('mouseup touchend touchcancel', mup);
+$doc.on('mousedown touchstart', mdown);
+$doc.on('mousemove touchmove', mmove);
+$doc.on('mouseup touchend touchcancel', mup);
 
 
 $sizes.on('click touchstart', function(e) {
@@ -125,12 +128,17 @@ $(".dismiss-intro").on('click touchstart', function(e) {
 function resizeDoc() {
 	winWidth = $win.width();
 	winHeight = $win.height();
-	canvas.setAttribute('width', winWidth);
 	var newCanvasHeight = winHeight - $header.height() - $footer.height();
+
+	canvas.setAttribute('width', winWidth);
 	canvas.setAttribute('height', newCanvasHeight);
+	canvasDisplay.setAttribute('width', winWidth);
+	canvasDisplay.setAttribute('height', newCanvasHeight);
 	$canvas.css({ height: newCanvasHeight });
-	canvas.width = winWidth;
-	canvas.height = newCanvasHeight;
+	$canvasDisplay.css({ height: newCanvasHeight });
+	canvas.width = canvasDisplay.width = winWidth;
+	canvas.height = canvasDisplay.height = newCanvasHeight;
+
 	settings.speedScale = winWidth / 4;
 	$sizes.css({ width: winWidth / 3 - 1});
 }
@@ -234,6 +242,9 @@ function redraw() {
 			entities.splice(eI, 1);
 		}
 	}
+	ctxDisplay.clearRect(0,0,canvasDisplay.width,canvasDisplay.height);
+	ctxDisplay.drawImage(canvas, 0, 0);
+
 	requestAnimFrame(redraw);
 }
 

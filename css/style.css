@@ -10,12 +10,15 @@ html, body, canvas {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
-	font-family: ;
 }
 canvas {
 	position: absolute;
 	left: 0;
-	top: 120;
+	top: 120px;
+}
+body {
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+	background: #000;
 	background-image: -moz-radial-gradient(center, circle cover, rgba(100,105,108, 0) 0%, #334455 100%);
 	background-image: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(100,105,108, 0)), color-stop(100%, #334455));
 	background-image: -webkit-radial-gradient(center, circle cover, rgba(100,105,108, 0) 0%, #334455 100%);
@@ -24,9 +27,8 @@ canvas {
 	background-image: radial-gradient(center, circle cover, rgba(100,105,108, 0) 0%, #334455 100%);
 	background-size: cover;
 }
-body {
-	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-	background-color: #000;
+#maincanvas {
+	visibility: hidden;
 }
 header {
 	width: 100%;
