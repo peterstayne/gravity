@@ -154,6 +154,8 @@ function redraw() {
 	var eI = entities.length;
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+	var red, green;
+
 	if( entities.length ) {
 
 		for(var eI in entities) {
@@ -204,9 +206,15 @@ function redraw() {
 			}
 
 			// draw entity
+			red = green = curE.mass / 3;
+			if(red > 255) red = 255;
+			green = 255 - green;
+
 			ctx.beginPath();
 			ctx.arc( curE.x, curE.y, Math.log(curE.mass) * 2, 0, PI2, false )
-			ctx.fillStyle = "#ffaa00";
+			ctx.fillStyle = "rgba(" + ~~red + ", " + ~~green + ", 0, 1)";
+			ctx.shadowBlur = 14;
+			ctx.shadowColor = 'rgba(255, 230, 180, 1)';
 			ctx.fill();
 		}
 
