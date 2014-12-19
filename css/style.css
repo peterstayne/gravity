@@ -1,0 +1,116 @@
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+html, body, canvas {
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	font-family: ;
+}
+canvas {
+	position: absolute;
+	left: 0;
+	top: 120;
+	background-image: -moz-radial-gradient(center, circle cover, rgba(100,105,108, 0) 0%, #334455 100%);
+	background-image: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(100,105,108, 0)), color-stop(100%, #334455));
+	background-image: -webkit-radial-gradient(center, circle cover, rgba(100,105,108, 0) 0%, #334455 100%);
+	background-image: -o-radial-gradient(center, circle cover, rgba(100,105,108, 0) 0%, #334455 100%);
+	background-image: -ms-radial-gradient(center, circle cover, rgba(100,105,108, 0) 0%, #334455 100%);
+	background-image: radial-gradient(center, circle cover, rgba(100,105,108, 0) 0%, #334455 100%);
+	background-size: cover;
+}
+body {
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+	background-color: #000;
+}
+header {
+	width: 100%;
+	height: 120px;
+}
+.masthead {
+	width: 100%;
+	height: 60px;
+	background: #44d;
+	text-align: center;
+	color: #fff;
+}
+h1 {
+	font-size: 35px;
+	line-height: 60px;
+	margin: 0;
+}
+a {
+	text-decoration: none;
+}
+.sizes {
+	word-spacing: -3px;
+	width: 100%;
+}
+.size, .reset {
+	display: inline-block;
+	height: 60px;
+	text-align: center;
+	margin: 0;
+	letter-spacing: 2px;
+	line-height: 60px;
+	color: #fff;
+	background-color: #666;
+}
+.size.small.active, .size.small:hover {
+	background-color: #4c4;
+}
+.size.medium.active, .size.medium:hover {
+	background-color: #ca4;
+}
+.size.large.active, .size.large:hover {
+	background-color: #d44;
+}
+
+footer {
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+.reset {
+	width: 100%;
+	color: #fff;
+}
+.reset:hover {
+	background: #aaa;
+}
+
+.intro-wrapper {
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.6);
+	z-index: 1;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.intro {
+	background: #fff;
+	border-radius: 15px;
+	width: 80%;
+	margin: 80px auto 0;
+	max-width: 400px;
+	color: #444;
+	padding: 40px;
+}
+.dismiss-intro {
+	background-color: #44d;
+	color: #fff;
+	text-align: center;
+	display: inline-block;
+	margin: 30px auto;
+	padding: 14px 24px;
+}
+.dismiss-intro:hover {
+	background-color: #88e;
+}
