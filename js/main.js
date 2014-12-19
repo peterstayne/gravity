@@ -19,15 +19,13 @@ var PI2 = Math.PI * 2; // for drawing circles
 var ctx = canvas.getContext('2d');
 var ctxDisplay = canvasDisplay.getContext('2d');
 
-// Setup app data objects
+// Setup app data variables and objects
 
 var startTime = (new Date()).getTime();
 var currentTime = startTime;
 
 var settings = {
-	maxMass: 13,
-	speedScale: 0,
-	bounds: 0.1
+	bounds: 0.1     // % of window width and height to tolerate out of bounds checks
 };
 
 var controller = {
@@ -40,6 +38,8 @@ var controller = {
 
 var entities = [];
 
+// Setup RaF cross-browser shim
+
 window.requestAnimFrame = (function(callback) {
 	return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
 	function(callback) {
@@ -47,8 +47,13 @@ window.requestAnimFrame = (function(callback) {
 	};
 })();
 
+// Aliased event functions 
+
+// Mouse/Touch Down
 var mdown = function(e) {
+
 	e.preventDefault();
+	e.stopPropagation();
 
 	controller.dragging = true;
 	controller.currentEntity = entities.length;
@@ -72,8 +77,11 @@ var mdown = function(e) {
 	};
 };
 
+// Mouse/Touch Move
 var mmove = function(e) {
+
 	e.preventDefault();
+	e.stopPropagation();
 
 	if( controller.dragging ) {
 
@@ -93,8 +101,11 @@ var mmove = function(e) {
 	}
 };
 
+// Mouse/Touch Up
 var mup = function(e) {
+
 	e.preventDefault();
+	e.stopPropagation();
 
 	controller.dragging = false;
 	controller.x = false;
@@ -106,9 +117,11 @@ $doc.on('mousedown touchstart', mdown);
 $doc.on('mousemove touchmove', mmove);
 $doc.on('mouseup touchend touchcancel', mup);
 
-
+// Click handler for the size selector boxes
 $sizes.on('click touchstart', function(e) {
 	e.preventDefault();
+	e.stopPropagation();
+
 	var $this = $(this);
 	$sizes.not(this).removeClass('active');
 	$this.addClass('active');
@@ -117,15 +130,21 @@ $sizes.on('click touchstart', function(e) {
 
 $(".reset").on('click touchstart', function(e) {
 	e.preventDefault();
+	e.stopPropagation();
+
 	entities = [];
 });
 
 $(".dismiss-intro").on('click touchstart', function(e) {
 	e.preventDefault();
+	e.stopPropagation();
+
 	$(".intro-wrapper").fadeOut();
 });
 
+// Function that is called on every window resize.
 function resizeDoc() {
+
 	winWidth = $win.width();
 	winHeight = $win.height();
 	var newCanvasHeight = winHeight - $header.height() - $footer.height();
@@ -139,7 +158,6 @@ function resizeDoc() {
 	canvas.width = canvasDisplay.width = winWidth;
 	canvas.height = canvasDisplay.height = newCanvasHeight;
 
-	settings.speedScale = winWidth / 4;
 	$sizes.css({ width: winWidth / 3 - 1});
 }
 
@@ -174,8 +192,11 @@ function redraw() {
 			// if user still dragging a line for this one, don't calculate stuff
 			if( eI != controller.currentEntity ){
 
+				// loop through all of the other entities and calculate their effect on this entity
 				for(var eI2 in entities) {
 
+					// if this entity is the same as the original entity, or undefined, or is currently
+					// still being placed, skip this one
 					if(eI2 === eI || eI2 === controller.currentEntity || typeof curE === "undefined" || typeof entities[ eI2 ] === "undefined") continue;
 
 					var curE2 = entities[ eI2 ];
@@ -183,25 +204,34 @@ function redraw() {
 
 					var thisDistance = distance( curE.x, curE.y, curE2.x, curE2.y );
 					if( !thisDistance ) continue;
+
+					// force effect = m1 * m2 / distance ^ 2
 					var force = (curE.mass * curE2.mass) / Math.pow( thisDistance, 2 );
+
+					// compare the masses to determine the fraction to apply to original object
 					force = force * ( curE2.mass / curE.mass ) * timeSince / 2;
+
 					var thisAngle = angle( curE2.x - curE.x, curE2.y - curE.y );
-					if( thisDistance < 5 && curE.mass >= curE2.mass ) {
+
+					// if the 2 objects are too close and original is same mass or greater, combine them
+					if( thisDistance < 10 && curE.mass >= curE2.mass ) {
 						curE.vX = curE.vX - ((curE.vX - curE2.vX) * (curE2.mass / (curE.mass + curE2.mass)));
 						curE.vY = curE.vY - ((curE.vY - curE2.vY) * (curE2.mass / (curE.mass + curE2.mass)));
 						curE.mass += curE2.mass;
 						curE2.status = false;
 						continue;
 					}
+
+					// ... otherwise, simply apply the effect
 					curE.vX = curE.vX + (Math.sin(thisAngle) * force);
 					curE.vY = curE.vY + (Math.cos(thisAngle) * force);
 				}
 
-				// move entity along
+				// Actually move entity along
 				curE.x = curE.x + (curE.vX * timeSince);
 				curE.y = curE.y + (curE.vY * timeSince);
 
-				// responsive bounds check... remove entities too far off screen
+				// Responsive bounds check... remove entities too far off screen
 				if( 
 					curE.x < -(winWidth * settings.bounds ) ||
 					curE.x > (winWidth + winWidth * settings.bounds ) ||
@@ -213,7 +243,7 @@ function redraw() {
 				}
 			}
 
-			// draw entity
+			// Draw entity
 			red = green = curE.mass / 3;
 			if(red > 255) red = 255;
 			green = 255 - green;
@@ -237,6 +267,8 @@ function redraw() {
 			ctx.stroke();
 		}
 	}
+
+	// Eliminate deleted objects
 	for(var eI in entities) {
 		if( !entities[ eI ].status ) {
 			entities.splice(eI, 1);

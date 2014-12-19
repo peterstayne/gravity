@@ -46,6 +46,12 @@ h1 {
 	line-height: 60px;
 	margin: 0;
 }
+h2 {
+	margin: 0 0 20px 0;
+}
+h3 {
+	margin: 0;
+}
 a {
 	text-decoration: none;
 }
@@ -100,19 +106,28 @@ footer {
 	background: #fff;
 	border-radius: 15px;
 	width: 80%;
-	margin: 80px auto 0;
-	max-width: 400px;
+	max-width: 600px;
+	margin: 20px auto 0;
 	color: #444;
-	padding: 40px;
+	padding: 20px;
+	height: 95%;
+}
+.copy-container {
+	width: 100%;
+	max-height: 67%;
+	overflow-y: auto;
 }
 .dismiss-intro {
 	background-color: #44d;
 	color: #fff;
 	text-align: center;
 	display: inline-block;
-	margin: 30px auto;
+	margin: 30px auto 0;
 	padding: 14px 24px;
 }
 .dismiss-intro:hover {
 	background-color: #88e;
+}
+li {
+	margin-bottom: 8px;
 }
