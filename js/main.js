@@ -242,7 +242,7 @@ function redraw() {
 			entities.splice(eI, 1);
 		}
 	}
-	ctxDisplay.clearRect(0,0,canvasDisplay.width,canvasDisplay.height);
+	canvasDisplay.width = canvasDisplay.width;
 	ctxDisplay.drawImage(canvas, 0, 0);
 
 	requestAnimFrame(redraw);
